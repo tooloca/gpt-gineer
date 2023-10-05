@@ -97,9 +97,7 @@ def collect_learnings(model: str, temperature: float, steps: List[Step], dbs: DB
         overflow = len(learnings.to_json()) - (32 << 10)  # type: ignore
         assert overflow > 0, f"encountered error {e} but overflow is {overflow}"
 
-        learnings.logs = (
-            learnings.logs[: -overflow - 200] + f"\n\n[REMOVED {overflow} CHARACTERS]"
-        )
+        learnings.logs = f"{learnings.logs[:-overflow - 200]}\n\n[REMOVED {overflow} CHARACTERS]"
         print(
             "WARNING: learning too big, removing some parts. "
             "Please report if this results in a crash."
